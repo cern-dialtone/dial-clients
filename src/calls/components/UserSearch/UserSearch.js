@@ -76,10 +76,10 @@ export class UserSearch extends Component {
     });
   };
 
-  handleSearchChange = (e) => {
+  handleSearchChange = (e, { name, value }) => {
     const { timeout } = this.state;
 
-    this.setState({ [e.name]: e.value });
+    this.setState({ [name]: value });
     this.shouldEnableSearch();
     this.removeSearchResults();
 
@@ -90,7 +90,7 @@ export class UserSearch extends Component {
 
     this.setState({
       timeout: setTimeout(() => {
-        this._handleSearchTimeout(e.value);
+        this._handleSearchTimeout(value);
       }, 300)
     });
   };
@@ -100,9 +100,9 @@ export class UserSearch extends Component {
     updateDialpadValue(event.target.value);
   };
 
-  handleItemClick = (e) => {
-    actionMessage(`Search: User clicks on ${e.name} button`);
-    this.setState({ activeItem: e.name });
+  handleItemClick = (e, { name }) => {
+    actionMessage(`Search: User clicks on ${name} button`);
+    this.setState({ activeItem: name });
   };
 
   render() {
