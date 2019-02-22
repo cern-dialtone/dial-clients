@@ -228,8 +228,7 @@ class PhoneProvider extends Component {
     );
     makeCall({
       name: name,
-      phoneNumber: phoneNumber,
-      startTime: Date.now()
+      phoneNumber: phoneNumber
     });
     this.playRingbacktone();
     isCalling();
@@ -368,6 +367,7 @@ class PhoneProvider extends Component {
       case "accepted":
         // TODO
         this.stopRingbacktone();
+        this.props.recipient.startTime = Date.now();
         this.props.acceptOutgoingCall();
         break;
       case "terminated":
