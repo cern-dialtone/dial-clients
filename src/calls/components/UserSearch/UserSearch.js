@@ -4,7 +4,7 @@ import { actionMessage, logMessage } from "common/utils/logs";
 
 import "./UserSearch.css";
 import { UserSearchForm } from "calls/components/UserSearch/UserSearchForm";
-import { CallerDialpadForm } from "calls/components/dialpads/CallerDialpadForm/CallerDialpadForm";
+import CallerDialpadFormContainer from "calls/components/dialpads/CallerDialpadForm/index";
 import { Grid, Icon, Menu } from "semantic-ui-react";
 
 export class UserSearch extends Component {
@@ -148,9 +148,10 @@ export class UserSearch extends Component {
           />
         )}
         {activeItem === "dialpad" && (
-          <CallerDialpadForm
+          <CallerDialpadFormContainer
             value={dialpadValue}
             onChange={this.handleDialpadChange}
+            unSelectUser={this.props.unSelectUser}
           />
         )}
       </Grid>

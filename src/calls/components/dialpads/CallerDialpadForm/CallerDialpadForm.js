@@ -2,14 +2,40 @@ import React, { Component } from "react";
 import { Grid, Form, Icon, Input } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import CallerDialpadContainer from "../CallerDialpad";
+import { actionMessage } from "common/utils/logs";
+import { buildRecipient, formatPhoneNumber } from "calls/utils";
 
 export class CallerDialpadForm extends Component {
-  render() {
+
+  static propTypes = {
+    value: PropTypes.any,
+    onChange: PropTypes.func.isRequired,
+    phoneService: PropTypes.object.isRequired,
+    unSelectUser: PropTypes.func.isRequired
+  };
+
+
+  makeCall = () => {
+
+    const {value} = this.props;
+
+    const formattedNumber = formatPhoneNumber(value);
+
+    const recipient = {
+      name: value,
+      phoneNumber: formattedNumber
+    };
+
+    this.props.unSelectUser();
+    this.props.phoneService.makeCall(buildRecipient(recipient));
+  };
+
+  render = () => {
     return (
       <>
         <Grid.Row>
           <Grid.Column width={16}>
-            <Form>
+            <Form onSubmit={this.makeCall} >
               <Form.Field width={16}>
                 <Input
                   className={"DialpadInput"}
@@ -38,8 +64,3 @@ export class CallerDialpadForm extends Component {
     );
   }
 }
-
-CallerDialpadForm.propTypes = {
-  value: PropTypes.any,
-  onChange: PropTypes.func.isRequired
-};

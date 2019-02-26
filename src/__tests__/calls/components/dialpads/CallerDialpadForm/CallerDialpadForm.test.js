@@ -4,15 +4,20 @@ import { CallerDialpadForm } from "calls/components/dialpads/CallerDialpadForm/C
 
 it("renders DtmfDialpadForm without crashing", () => {
   const onChange = jest.fn();
+  const unSelectUser = jest.fn();
   const wrapper = shallow(
-    <CallerDialpadForm phoneService={{}} onChange={onChange} />
+    <CallerDialpadForm phoneService={{}} onChange={onChange} unSelectUser={unSelectUser} />
   );
+
+  expect(wrapper.text()).toEqual("<GridRow /><GridRow />");
 });
 
 it("contains expected texts", () => {
   const onChange = jest.fn();
+  const unSelectUser = jest.fn();
+
   const wrapper = shallow(
-    <CallerDialpadForm phoneService={{}} onChange={onChange} />
+    <CallerDialpadForm phoneService={{}} onChange={onChange} unSelectUser={unSelectUser} />
   );
 
   expect(wrapper.text()).toEqual("<GridRow /><GridRow />");
@@ -20,8 +25,9 @@ it("contains expected texts", () => {
 
 it("contains expected strings", () => {
   const onChange = jest.fn();
+  const unSelectUser = jest.fn();
   const wrapper = shallow(
-    <CallerDialpadForm phoneService={{}} onChange={onChange} />
+    <CallerDialpadForm phoneService={{}} onChange={onChange} unSelectUser={unSelectUser}/>
   );
 
   expect(wrapper.debug()).toContain("<Fragment");
