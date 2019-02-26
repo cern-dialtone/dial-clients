@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Grid, Form, Icon, Input } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import CallerDialpadContainer from "../CallerDialpad";
-import { actionMessage } from "common/utils/logs";
 import { buildRecipient, formatPhoneNumber } from "calls/utils";
 
 export class CallerDialpadForm extends Component {
