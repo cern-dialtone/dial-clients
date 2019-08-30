@@ -65,17 +65,19 @@ ButtonNumbersList.propTypes = {
 };
 
 const DisplayErrors = ({ errorMessage }) => {
-    const [showError, setShowError] = useState(1);
-    if (errorMessage && showError) {
-      return (<Message
-                onDismiss={() => setShowError(!showError)}
-                error
-                header={errorMessage}
-                list={[
-                  'You can try again in few minutes.',
-                  'If the problem persists contact support.'
-                ]}
-              />);
+  const [showError, setShowError] = useState(1);
+  if (errorMessage && showError) {
+    return (
+      <Message
+        onDismiss={() => setShowError(!showError)}
+        error
+        header={errorMessage}
+        list={[
+          'You can try again in few minutes.',
+          'If the problem persists contact support.'
+        ]}
+      />
+    );
   }
   return null;
 };
