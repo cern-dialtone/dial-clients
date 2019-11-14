@@ -173,6 +173,24 @@ You will see some logs during the packaging step related to this part.
 
 Every steps related to this part are in `docker/`.
 
+### Execute the generated AppImage
+
+You will probably need to set the AppImage as executable.
+
+To do so:
+- Right click on the AppImage file
+- Select "Properties"
+- Click on the "Permissions" tab
+- Check "Allow executing file as a program"
+- Close this window
+
+You can also do this from the command line:
+
+```
+sudo chmod +x path_to_AppImage
+./path path_to_AppImage
+```
+
 ## Docs
 
 - [Contributing Guidelines](docs/CONTRIBUTING.md)
