@@ -69,8 +69,8 @@ const handleAuthDidNavigateEvent = (event, url) => {
 
 function isAnyWindowOpen() {
   return (
-    (mainWindow && mainWindow.isVisible()) ||
-    (authWindow && authWindow.isVisible())
+    (mainWindow != null && mainWindow.isVisible()) ||
+    (authWindow != null && authWindow.isVisible())
   );
 }
 
@@ -471,13 +471,17 @@ const toggleDockIcon = () => {
 };
 
 const toggleWindow = () => {
-  if (authWindow || mainWindow) {
+  if (authWindow != null) {
     return authWindow.isVisible() ? authWindow.hide() : authWindow.show();
+  }
+
+  if (mainWindow != null) {
+    return mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
   }
   return null;
 };
 
-changeIcon = isLogged => {
+const changeIcon = isLogged => {
   const icon = isLogged ? 'icon_16.png' : 'icon_logout_16.png';
   const imagePath = isDev
     ? path.join(__dirname, '/../static/icons/' + icon)
@@ -486,7 +490,7 @@ changeIcon = isLogged => {
   tray.setImage(imagePath);
 };
 
-createTray = () => {
+const createTray = () => {
   const imagePath = isDev
     ? path.join(__dirname, '/../static/icons/icon_logout_16.png')
     : path.join(process.resourcesPath, 'icons', 'icon_logout_16.png');
@@ -510,14 +514,6 @@ createTray = () => {
         toggleWindow();
         toggleDockIcon();
         createTray();
-      }
-    },
-    { type: 'separator' },
-    {
-      label: 'Quit',
-      click: (item, window, event) => {
-        forceQuit = true;
-        app.quit();
       }
     },
     { type: 'separator' },
