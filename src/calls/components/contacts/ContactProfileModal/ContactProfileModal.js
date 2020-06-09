@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Dimmer,
@@ -6,14 +6,12 @@ import {
   Icon,
   Loader,
   Modal,
-  Segment,
-  Grid
+  Segment
 } from 'semantic-ui-react';
 import { formatUserOrganization } from 'calls/utils/formatters';
 import UserPhoneNumberButtonContainer from 'calls/components/UserPhoneNumberButton/UserPhoneNumberButtonContainer';
 import ContactAddButton from 'calls/components/contacts/ContactAddButton/ContactAddButton';
 import UserProfileExtraInfo from 'calls/components/UserProfileExtraInfo/UserProfileExtraInfo';
-import PrivateMessageButton from '../PrivateMessageButton/PrivateMessageButton';
 
 function ContactProfileModalContent({ profile }) {
   return (
@@ -21,33 +19,21 @@ function ContactProfileModalContent({ profile }) {
       <UserProfileExtraInfo
         mail={profile.mail}
         physicalDeliveryOfficeName={profile.physicalDeliveryOfficeName}
-        username={profile.displayName}
       />
-      <Grid columns={1} divided>
-        <Grid.Row>
-          <Grid.Column>
-            {profile.phones &&
-              profile.phones.map((phone, index) => {
-                if (phone.number !== null) {
-                  return (
-                    <UserPhoneNumberButtonContainer
-                      key={`button-${index}`}
-                      phoneNumber={phone.number}
-                      icon={phone.phoneType}
-                      callerName={profile.displayName}
-                    />
-                  );
-                }
-                return null;
-              })}
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column>
-            <PrivateMessageButton profile={profile} />
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+      {profile.phones &&
+        profile.phones.map((phone, index) => {
+          if (phone.number !== null) {
+            return (
+              <UserPhoneNumberButtonContainer
+                key={`button-${index}`}
+                phoneNumber={phone.number}
+                icon={phone.phoneType}
+                callerName={profile.displayName}
+              />
+            );
+          }
+          return null;
+        })}
     </Modal.Content>
   );
 }
@@ -90,41 +76,53 @@ ContactProfileModalHeader.defaultProps = {
     displayName: ''
   }
 };
-const handleClose = unSelectContact => () => {
-  unSelectContact();
-};
 
-function ContactProfileModal({
-  modalOpen,
-  profile,
-  fetching,
-  unSelectContact
-}) {
-  return (
-    <Modal
-      data-testid="ContactProfileModal"
-      dimmer="blurring"
-      size="tiny"
-      open={modalOpen}
-      onClose={handleClose(unSelectContact)}
-      closeIcon
-    >
-      {fetching ? (
-        <Modal.Content>
-          <Segment basic>
-            <Dimmer active inverted>
-              <Loader inverted size="large" />
-            </Dimmer>
-          </Segment>
-        </Modal.Content>
-      ) : (
-        <React.Fragment>
-          <ContactProfileModalHeader profile={profile} />
-          <ContactProfileModalContent profile={profile} />
-        </React.Fragment>
-      )}
-    </Modal>
-  );
+export class ContactProfileModal extends Component {
+  static propTypes = {
+    modalOpen: PropTypes.bool.isRequired,
+    unSelectContact: PropTypes.func.isRequired,
+    profile: PropTypes.shape({
+      number: PropTypes.string
+    }),
+    fetching: PropTypes.bool.isRequired
+  };
+
+  static defaultProps = {
+    profile: null
+  };
+
+  handleClose = () => {
+    const { unSelectContact } = this.props;
+    unSelectContact();
+  };
+
+  render() {
+    const { modalOpen, profile, fetching } = this.props;
+    return (
+      <Modal
+        dimmer="blurring"
+        size="tiny"
+        open={modalOpen}
+        onClose={this.handleClose}
+        closeIcon
+      >
+        {fetching ? (
+          <Modal.Content>
+            <Segment basic>
+              <Dimmer active inverted>
+                <Loader inverted size="large" />
+              </Dimmer>
+            </Segment>
+          </Modal.Content>
+        ) : (
+          <React.Fragment>
+            <ContactProfileModalHeader profile={profile} />
+            <ContactProfileModalContent profile={profile} />
+          </React.Fragment>
+        )}
+      </Modal>
+    );
+  }
 }
 
 export default ContactProfileModal;
