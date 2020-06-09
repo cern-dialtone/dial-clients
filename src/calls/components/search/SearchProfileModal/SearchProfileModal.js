@@ -50,17 +50,18 @@ function SearchProfileModalContent(props) {
         </Segment>
       ) : (
         props.user.phones.map((phone, index) => {
-        if (phone.number !== null) {
-          return (
-            <UserPhoneNumberButtonContainer
-              key={`button-${index}`}
-              phoneNumber={phone.number}
-              icon={phone.phoneType}
-              callerName={props.user.displayName}
-            />
-          );
-        } return null;
-      })
+          if (phone.number !== null) {
+            return (
+              <UserPhoneNumberButtonContainer
+                key={`button-${index}`}
+                phoneNumber={phone.number}
+                icon={phone.phoneType}
+                callerName={props.user.displayName}
+              />
+            );
+          }
+          return null;
+        })
       )}
     </Modal.Content>
   );

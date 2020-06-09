@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContactProfileModal tests renders the modal closed 1`] = `
+<DocumentFragment>
+  <a
+    href="https://mattermost.web.cern.ch/_redirect/messages/@username"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    <button
+      class="ui fluid button CalleeProfileNumber"
+      role="button"
+    >
+      <i
+        aria-hidden="true"
+        class="chat icon"
+      />
+      Send private message
+    </button>
+  </a>
+</DocumentFragment>
+`;
